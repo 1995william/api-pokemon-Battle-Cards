@@ -1,12 +1,11 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import cors from "cors";
+import { routes } from "./routes/routes";
+
 const app = express();
 
 app.use(express.json());
-
 app.use(cors());
+app.get("/", routes);
 
-app.get("/", (req: Request, res: Response) => {
-  res.json("Welcome to api pokemon battle cards");
-});
 export { app };
