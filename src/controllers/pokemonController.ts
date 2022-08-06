@@ -9,4 +9,9 @@ export class PokemonController {
     static findAll = (req: Request, res: Response) => {
         res.status(200).json("GET all pokemóns");
       }
+    static register = (req: Request, res: Response) => {
+        const newPokemon = req.body;
+
+        res.status(201).json({"pokemon registered successfully":newPokemon});
+      }
 }
