@@ -21,4 +21,10 @@ export class PokemonController {
 
     res.status(200).json({ "pokemon updated successfully": updatePokemon });
   };
+
+  static remove = (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    res.status(200).json({ "pokemon successfully removed": id });
+  };
 }
