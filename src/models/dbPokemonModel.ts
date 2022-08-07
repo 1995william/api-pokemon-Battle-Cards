@@ -12,8 +12,8 @@ const pokemonSchema = new Schema({
       speed: Number,
     },
     required: true,
-  },
-});
+  }
+}, { versionKey:false});
 
 const pokemonModel = mongoose.model("pokemon", pokemonSchema);
 
