@@ -1,19 +1,24 @@
 import mongoose, { Schema } from "mongoose";
 
-const pokemonSchema = new Schema({
-  name: { type: String, required: true },
-  attributes: {
-    type: {
-      hp: Number,
-      attack: Number,
-      defense: Number,
-      "special-attack": Number,
-      "special-defense": Number,
-      speed: Number,
+const pokemonSchema = new Schema(
+  {
+    _id: {type: Number, require: true},
+    name: { type: String, required: true },
+    attributes: {
+      type: {
+        hp: { type: Number, required: true },
+        attack: { type: Number, required: true },
+        defense: { type: Number, required: true },
+        "special-attack": { type: Number, required: true },
+        "special-defense": { type: Number, required: true },
+        speed: { type: Number, required: true },
+        _id: false
+      },
+      required: true,
     },
-    required: true,
-  }
-}, { versionKey:false});
+  },
+  { versionKey: false }
+);
 
 const pokemonModel = mongoose.model("pokemon", pokemonSchema);
 
