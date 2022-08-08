@@ -7,6 +7,6 @@ routes.get("/", PokemonController.home);
 routes.get("/pokemons", PokemonController.findAll);
 routes.post("/pokemon", PokemonController.register);
 routes.put("/pokemon/:id", PokemonController.update);
-routes.delete("/pokemon/:id", PokemonController.remove);
+routes.delete("/pokemon/:_id", PokemonController.remove);
 
 export { routes };
