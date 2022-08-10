@@ -1,15 +1,18 @@
 import { Request, Response } from "express";
 import { pokemonModel } from "../models/dbPokemonModel";
 import { ResultModel } from "../models/resultModel";
+import { PokemonBattleStatsModel } from "../models/pokemonBattleStatsModel";
 export class BattleController {
   static arena = async (req: Request, res: Response) => {
     const { playerOneCard, playerTwoCard } = req.body;
-    
-    if(!playerOneCard) return res.status(404).json({"Player is required": "playerOneCard"});
-    if(!playerTwoCard) return res.status(404).json({"Player is required": "playerTwoCard"});
+
+    if (!playerOneCard) return res.status(404).json({ "Player is required": "playerOneCard" });
+    if (!playerTwoCard) return res.status(404).json({ "Player is required": "playerTwoCard" });
 
     try {
       const battleResult = await this.battle(playerOneCard, playerTwoCard);
+
+      if (battleResult === "Draw") return res.status(200).json("Drawn battle");
       res.status(201).json(battleResult);
     } catch (error) {
 
@@ -31,25 +34,33 @@ export class BattleController {
     const playerOneCard = await pokemonModel.findOne({ _id: playerOne });
     const playerTwoCard = await pokemonModel.findOne({ _id: playerTwo });
 
-    let playerOneAttributeWin = 0;
-    let playerTwoAttributeWin = 0;
+    // placar de estatísticas do pokemon vencedor
+    let hpWinner = 0;
+    let attackWinner = 0;
+    let defenseWinner = 0;
+    let specialAttackWinner = 0;
+    let specialDefenseWinner = 0;
+    let speedWinner = 0;
+
+    // totaliza quantidade de atributos vencidos de cada jogador
+    let playerOneTotalAttributeWin = 0;
+    let playerTwoTotalAttributeWin = 0;
 
     // compara os atributos das cartas
-
     if (playerOneCard.attributes.hp !== playerTwoCard.attributes.hp) {
       playerOneCard.attributes.hp > playerTwoCard.attributes.hp
-        ? playerOneAttributeWin++
-        : playerTwoAttributeWin++;
+        ? (hpWinner = 1, playerOneTotalAttributeWin++)
+        : (hpWinner = 2, playerTwoTotalAttributeWin++);
     }
     if (playerOneCard.attributes.attack !== playerTwoCard.attributes.attack) {
       playerOneCard.attributes.attack > playerTwoCard.attributes.attack
-        ? playerOneAttributeWin++
-        : playerTwoAttributeWin++;
+        ? (attackWinner = 1, playerOneTotalAttributeWin++)
+        : (attackWinner = 2, playerTwoTotalAttributeWin++);
     }
     if (playerOneCard.attributes.defense !== playerTwoCard.attributes.defense) {
       playerOneCard.attributes.defense > playerTwoCard.attributes.defense
-        ? playerOneAttributeWin++
-        : playerTwoAttributeWin++;
+        ? (defenseWinner = 1, playerOneTotalAttributeWin++)
+        : (defenseWinner = 2, playerTwoTotalAttributeWin++);
     }
     if (
       playerOneCard.attributes["special-attack"] !==
@@ -57,8 +68,8 @@ export class BattleController {
     ) {
       playerOneCard.attributes["special-attack"] >
         playerTwoCard.attributes["special-attack"]
-        ? playerOneAttributeWin++
-        : playerTwoAttributeWin++;
+        ? (specialAttackWinner = 1, playerOneTotalAttributeWin++)
+        : (specialAttackWinner = 2, playerTwoTotalAttributeWin++)
     }
     if (
       playerOneCard.attributes["special-defense"] !==
@@ -66,19 +77,22 @@ export class BattleController {
     ) {
       playerOneCard.attributes["special-defense"] >
         playerTwoCard.attributes["special-defense"]
-        ? playerOneAttributeWin++
-        : playerTwoAttributeWin++;
+        ? (specialDefenseWinner = 1, playerOneTotalAttributeWin++)
+        : (specialDefenseWinner = 2, playerTwoTotalAttributeWin++);
     }
     if (playerOneCard.attributes.speed !== playerTwoCard.attributes.speed) {
       playerOneCard.attributes.speed > playerTwoCard.attributes.speed
-        ? playerOneAttributeWin++
-        : playerTwoAttributeWin++;
+        ? (speedWinner = 1, playerOneTotalAttributeWin++)
+        : (speedWinner = 2, playerTwoTotalAttributeWin++);
     }
-    // retona empate ou o jogador e a carta vencedora com os atributos
-    console.log(playerOneAttributeWin, playerTwoAttributeWin);
-    if (playerOneAttributeWin === playerTwoAttributeWin) return "Draw";
-    return playerOneAttributeWin > playerTwoAttributeWin
-      ? new ResultModel(1, 2, playerOneCard.name, playerOneCard.attributes)
-      : new ResultModel(2, 1, playerTwoCard.name, playerTwoCard.attributes);
+
+    // aqui passa o resultado final das estatísticas do pokemon durante a batalha para o constructor
+    const pokemonBattleStats = new PokemonBattleStatsModel(hpWinner, attackWinner, defenseWinner, specialAttackWinner, specialDefenseWinner, speedWinner);
+
+    // retorna empate ou o jogador e a carta vencedora com os atributos
+    if (playerOneTotalAttributeWin === playerTwoTotalAttributeWin) return "Draw";
+    return playerOneTotalAttributeWin > playerTwoTotalAttributeWin
+      ? new ResultModel(1, 2, playerOneCard.name, pokemonBattleStats)
+      : new ResultModel(2, 1, playerTwoCard.name, pokemonBattleStats);
   };
 }
