@@ -1,6 +1,7 @@
-export class ResultModel {
-  winner: number;
-  loser: number;
+export class ResultModel  {
+  playerWinner: number;
+  playerLoser: number;
+  pokemon: string;
   details: {
     hp: number;
     attack: number;
@@ -13,6 +14,7 @@ export class ResultModel {
   constructor(
     winner: number,
     loser: number,
+    pokemon: string,
     details: {
       hp: number;
       attack: number;
@@ -22,8 +24,9 @@ export class ResultModel {
       speed: number;
     }
   ) {
-    this.winner = winner;
-    this.loser = loser;
+    this.playerWinner = winner;
+    this.playerLoser = loser;
+    this.pokemon = pokemon;
     this.details = details;
   }
 }
