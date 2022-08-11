@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { pokemonModel } from "../models/dbPokemonModel";
 import { ResultModel } from "../models/resultModel";
 import { PokemonBattleStatsModel } from "../models/pokemonBattleStatsModel";
+import { scoreModel } from "../models/dbBattleScore";
 export class BattleController {
   static arena = async (req: Request, res: Response) => {
     const { playerOneCard, playerTwoCard } = req.body;
@@ -13,6 +14,11 @@ export class BattleController {
       const battleResult = await this.battle(playerOneCard, playerTwoCard);
 
       if (battleResult === "Draw") return res.status(200).json("Drawn battle");
+
+      battleResult.playerWinner == 1 ?
+        await scoreModel.updateOne({ $inc: { playerOneWins: +1 } }) :
+        await scoreModel.updateOne({ $inc: { playerTwoWins: +1 } });
+
       res.status(201).json(battleResult);
     } catch (error) {
 
