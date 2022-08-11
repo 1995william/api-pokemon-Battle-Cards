@@ -12,8 +12,8 @@ routes.get("/pokemon/id/:id", PokemonController.findOneByid);
 routes.get("/pokemon/name/:name", PokemonController.findOneByName);
 routes.post("/pokemon", PokemonController.register);
 routes.post("/battle", BattleController.arena);
+routes.post("/scores", ScoreController.create);
 routes.put("/pokemon/id/:id", PokemonController.updateById);
-routes.put("/scores", ScoreController.update);
 routes.put("/pokemon/name/:name", PokemonController.updateByName);
 routes.delete("/pokemon/id/:id", PokemonController.remove);
 
