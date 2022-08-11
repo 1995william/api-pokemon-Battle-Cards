@@ -8,6 +8,6 @@ const battleScoreSchema = new Schema(
     { versionKey: false }
 );
 
-const resultsModel = mongoose.model("results", battleScoreSchema);
+const scoreModel = mongoose.model("score", battleScoreSchema);
 
-export { resultsModel };
+export { scoreModel };
