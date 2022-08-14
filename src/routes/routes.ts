@@ -12,7 +12,7 @@ routes.get("/pokemon/id/:id", PokemonController.findOneByid);
 routes.get("/pokemon/name/:name", PokemonController.findOneByName);
 routes.post("/pokemon", PokemonController.register);
 routes.post("/battle", BattleController.arena);
-routes.post("/scores", ScoreController.create);
+routes.put("/scores/reset", ScoreController.create);
 routes.put("/pokemon/update/id/:id", PokemonController.updateById);
 routes.put("/pokemon/update/name/:name", PokemonController.updateByName);
 routes.delete("/pokemon/delete/:id", PokemonController.remove);
