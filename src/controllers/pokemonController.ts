@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { pokemonModel } from "../models/dbPokemonModel";
+import { cardPokemon } from "../validation/cardPokemon";
 
 export class PokemonController {
   static home = (req: Request, res: Response) => {
@@ -17,7 +18,7 @@ export class PokemonController {
       res.status(200).json(pokemons);
 
     } catch (error) {
-      res.status(404).json({ "error in response": error.message })
+      res.status(400).json({ "error in response": error.message })
     }
   };
 
@@ -29,7 +30,7 @@ export class PokemonController {
       res.status(200).json(pokemons);
 
     } catch (error) {
-      res.status(404).json({ "error in response": error.message });
+      res.status(400).json({ "error in response": error.message });
     }
   };
 
@@ -43,31 +44,43 @@ export class PokemonController {
       res.status(200).json(pokemons);
 
     } catch (error) {
-      res.status(404).json({ "error in response": error.message });
+      res.status(400).json({ "Bad request": error.message });
     }
   };
 
   static register = async (req: Request, res: Response) => {
     const newPokemon = req.body;
+    const validPokemon = cardPokemon(newPokemon);
+    
+    if (validPokemon !== true) return res.status(400).json({ "Bad request": validPokemon[0].message });
+
     try {
+      const pokemons = await pokemonModel.find();
+      const checkPokemonId = pokemons.find((el)=> el._id === newPokemon._id);
+      if(checkPokemonId !== undefined) return res.status(400).json({ "Pokemon exists in database _id": newPokemon._id});
+     
       await pokemonModel.create(newPokemon);
       res.status(201).json({ "pokemon registered successfully": newPokemon });
 
     } catch (error) {
-      res.status(404).json({ "error in request": error.message });
+      res.status(400).json({ "Bad request": error.message });
     }
   };
 
   static updateById = async (req: Request, res: Response) => {
     const { id } = req.params;
     const pokemon = req.body;
+    const validPokemon = cardPokemon(pokemon);
+
+    if (validPokemon !== true) return res.status(400).json({ "Bad request": validPokemon[0].message });
+
     try {
       const pokemonUpdated = await pokemonModel.findOneAndUpdate({ _id: id }, pokemon);
       if (pokemonUpdated === null) return res.status(404).json({ "Pokemon not found _id": id });
       res.status(200).json({ "pokemon updated successfully": pokemon });
 
     } catch (error) {
-      res.status(404).json({ "error in request": error.message });
+      res.status(400).json({ "Bad request": error.message });
     }
   };
 
@@ -75,6 +88,10 @@ export class PokemonController {
     const { name } = req.params;
     const pokemon = req.body;
     const firstLetterUpperCase = `${name[0].toUpperCase()}${name.substring(1)}`;
+    const validPokemon = cardPokemon(pokemon);
+
+    if (validPokemon !== true) return res.status(400).json({ "Bad request": validPokemon[0].message });
+    
     try {
       const pokemonUpdated = await pokemonModel.findOneAndUpdate({ name: firstLetterUpperCase }, pokemon);
 
@@ -82,7 +99,7 @@ export class PokemonController {
       res.status(200).json({ "pokemon updated successfully": pokemon });
 
     } catch (error) {
-      res.status(404).json({ "error in request": error.message });
+      res.status(400).json({ "Bad request": error.message });
     }
   };
 
@@ -95,7 +112,7 @@ export class PokemonController {
       res.status(200).json({ "pokemon successfully removed": pokemonRemoved });
 
     } catch (error) {
-      res.status(404).json({ "error in request": error.message });
+      res.status(400).json({ "Bad request": error.message });
     }
   };
 }

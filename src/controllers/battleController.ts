@@ -3,12 +3,13 @@ import { pokemonModel } from "../models/dbPokemonModel";
 import { ResultModel } from "../models/resultModel";
 import { PokemonBattleStatsModel } from "../models/pokemonBattleStatsModel";
 import { scoreModel } from "../models/dbBattleScore";
+import { playersCardChoice } from "../validation/playersCardChoice";
 export class BattleController {
   static arena = async (req: Request, res: Response) => {
     const { playerOneCard, playerTwoCard } = req.body;
+    const validPlayerCard = playersCardChoice(playerOneCard, playerTwoCard);
 
-    if (!playerOneCard) return res.status(404).json({ "Player is required": "playerOneCard" });
-    if (!playerTwoCard) return res.status(404).json({ "Player is required": "playerTwoCard" });
+    if(validPlayerCard !== true) return res.status(400).json({ "Bad request": validPlayerCard[0].message });
 
     try {
       const battleResult = await this.battle(playerOneCard, playerTwoCard);

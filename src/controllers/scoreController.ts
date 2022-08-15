@@ -9,10 +9,10 @@ export class ScoreController {
 
             res.status(200).json({"playerOneWins": playerOneWins, "playerTwoWins": playerTwoWins});
         } catch (error) {
-            res.status(404).json(error.message)
+            res.status(400).json(error.message)
         }
     }
-    static create = async (req: Request, res: Response) => {
+    static reset = async (req: Request, res: Response) => {
   
         try {
             const playersScore = await scoreModel.find();
@@ -20,7 +20,7 @@ export class ScoreController {
             
             await scoreModel.updateOne({ playerOneWins: 0 });
             await scoreModel.updateOne({ playerTwoWins: 0 }); 
-            res.status(201).json("score battle created");
+            res.status(200).json("score reseted");
         } catch (error) {
             res.status(404).json(error.message);
         }

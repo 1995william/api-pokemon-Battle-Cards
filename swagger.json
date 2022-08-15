@@ -1,0 +1,392 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Pokemons",
+        "description": "Documentação para api pokemon battle cards",
+        "version": "1.0.0"
+    },
+    "basePath": "/",
+    "paths": {
+        "/pokemons": {
+            "get": {
+                "tags": [
+                    "Pokemons"
+                ],
+                "description": "Retorna lista de pokemons por páginas",
+                "parameters": [{
+                    "name": "page",
+                    "in": "query",
+                    "schema": { "type": "number" },
+                    "default": 0
+                    
+                },
+                {
+                    "name": "limit",
+                    "in": "query",
+                    "schema": { "type": "number" },
+                    "default": 10
+                }
+             ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/pokemon/id/{id}": {
+            "get": {
+                "tags": ["Pokemons"],
+                "description": "Retorna pokemon pelo id",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true
+                }
+             ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            }
+        },
+        "/pokemon/name/{name}": {
+            "get": {
+                "tags": ["Pokemons"],
+                "description": "Retorna pokemon pelo nome",
+                "parameters": [{
+                    "name": "name",
+                    "in": "path",
+                    "type": "string",
+                    "required": true
+                }
+             ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            }
+        },
+        "/pokemon": {
+            "post": {
+                "tags": ["Pokemons"],
+                "description": "Registra pokemon",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "_id": {
+                                        "type": "number"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "attributes": {
+                                        "type": "object",
+                                        "properties": {
+                                            "hp": {
+                                                "type": "number"
+                                            },
+                                            "attack": {
+                                                "type": "number"
+                                            },
+                                            "defense": {
+                                                "type": "number"
+                                            },
+                                            "special-attack": {
+                                                "type": "number"
+                                            },
+                                            "special-defense": {
+                                                "type": "number"
+                                            },
+                                            "speed": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "_id": 808,
+                                    "name": "Meltan",
+                                    "attributes": {
+                                        "hp": 46,
+                                        "attack": 65,
+                                        "defense": 65,
+                                        "special-attack": 55,
+                                        "special-defense": 35,
+                                        "speed": 34
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/pokemon/update/id/{id}": {
+            "put": {
+                "tags": ["Pokemons"],
+                "description": "Atualiza pokemon pelo id",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "type": "string",
+                    "required": true
+                }
+             ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "_id": {
+                                        "type": "number"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "attributes": {
+                                        "type": "object",
+                                        "properties": {
+                                            "hp": {
+                                                "type": "number"
+                                            },
+                                            "attack": {
+                                                "type": "number"
+                                            },
+                                            "defense": {
+                                                "type": "number"
+                                            },
+                                            "special-attack": {
+                                                "type": "number"
+                                            },
+                                            "special-defense": {
+                                                "type": "number"
+                                            },
+                                            "speed": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "_id": 1,
+                                    "name": "Bulbasaur",
+                                    "attributes": {
+                                        "hp": 46,
+                                        "attack": 49,
+                                        "defense": 49,
+                                        "special-attack": 65,
+                                        "special-defense": 65,
+                                        "speed": 45
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/pokemon/update/name/{name}": {
+            "put": {
+                "tags": ["Pokemons"],
+                "description": "Atualiza pokemon pelo nome",
+                "parameters": [{
+                    "name": "name",
+                    "in": "path",
+                    "type": "string",
+                    "required": true
+                }
+             ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "_id": {
+                                        "type": "number"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "attributes": {
+                                        "type": "object",
+                                        "properties": {
+                                            "hp": {
+                                                "type": "number"
+                                            },
+                                            "attack": {
+                                                "type": "number"
+                                            },
+                                            "defense": {
+                                                "type": "number"
+                                            },
+                                            "special-attack": {
+                                                "type": "number"
+                                            },
+                                            "special-defense": {
+                                                "type": "number"
+                                            },
+                                            "speed": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "_id": 1,
+                                    "name": "Bulbasaur",
+                                    "attributes": {
+                                        "hp": 46,
+                                        "attack": 49,
+                                        "defense": 49,
+                                        "special-attack": 65,
+                                        "special-defense": 65,
+                                        "speed": 45
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/pokemon/delete/{id}": {
+            "delete": {
+                "tags": ["Pokemons"],
+                "description": "Remove pokemon pelo id",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "type": "string",
+                    "required": true
+                }
+             ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            }
+        },
+        "/battle": {
+            "post": {
+                "tags": ["Batalha"],
+                "description": "Seleciona o pokemon pelo id para batalha",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                  "playerOneCard": {
+                                    "type":"number"
+                                  },  
+                                  "playerTwoCard": {
+                                    "type":"number"
+                                  }  
+                                },
+                                "example": {
+                                    "playerOneCard": 1,
+                                    "playerTwoCard": 4
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/scores": {
+            "get": {
+                "tags": ["Pontuações"],
+                "description": "Histórico de pontuações dos jogadores",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/scores/reset": {
+            "put": {
+                "tags": ["Pontuações"],
+                "description": "Reseta as pontuações dos jogadores",
+               
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        }
+    }
+}
