@@ -23,7 +23,7 @@ Este projeto foi realizado como parte da conclusão do desafio SomoS (back-end).
 
 * GET
 
-Para listar todos os pokemons acesse a rota  /pokemons
+Para listar todos os pokemons acesse a rota  {url}/pokemons
 
 Response:
 
@@ -138,6 +138,30 @@ Response:
 
 ```
 Drawn battle
+```
+
+### Pontuações
+
+* GET
+
+Para acessar pontuações acumuladas acesse a rota {url}/scores 
+
+Response:
+
+```
+{
+    "playerOneWins": 0,
+    "playerTwoWins": 0
+}
+```
+* PUT
+
+Para resetar as pontuações acesse a rota {url}/scores/reset
+
+Response:
+
+```
+"score reseted"
 ```
 
 ## Swagger
