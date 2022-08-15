@@ -4,7 +4,7 @@ import { cardPokemon } from "../validation/cardPokemon";
 
 export class PokemonController {
   static home = (req: Request, res: Response) => {
-    res.status(200).json("Welcome to api pokemon battle cards");
+    res.status(200).json("Welcome to api pokemon battle cards. To start access the route /docs");
   };
 
   static findAll = async (req: Request, res: Response) => {
