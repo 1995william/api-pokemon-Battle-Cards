@@ -21,6 +21,8 @@ Este projeto foi realizado como parte da conclusão do desafio SomoS (back-end).
 
 ### Pokemons
 
+* GET
+
 Para listar todos os pokemons acesse a rota  /pokemons
 
 Response:
@@ -91,6 +93,8 @@ Response:
 ```
 
 ### Batalha
+
+* POST
 
 O sistema de batalha funciona comparando 1 carta pokemon de cada oponente selecionado por id, o pokemon que possui atributos maiores vence a partida.
 
