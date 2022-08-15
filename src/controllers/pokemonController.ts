@@ -44,7 +44,7 @@ export class PokemonController {
       res.status(200).json(pokemons);
 
     } catch (error) {
-      res.status(400).json({ "error in response": error.message });
+      res.status(400).json({ "Bad request": error.message });
     }
   };
 
