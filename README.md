@@ -91,7 +91,26 @@ Response:
     }
 ]
 ```
+* POST
 
+Para registrar pokemon acesse a rota {url}/pokemon
+
+Request Body - Json
+
+```
+{
+  "_id": number,
+  "name": string,
+  "attributes": {
+    "hp": number,
+    "attack": number,
+    "defense": number,
+    "special-attack": number,
+    "special-defense": number,
+    "speed": number
+  }
+}
+```
 ### Batalha
 
 * POST
@@ -229,6 +248,20 @@ Em seguida utilize o comando para executar o projeto
 
 ```
 $ npm run dev
+```
+## Docker (opcional)
+
+É possível executar o projeto pelo container `docker`, siga estes passos:
+
+Para criar um container
+
+```
+docker build -t api-pokemon-battle-cards .
+```
+Para executar o container 
+
+```
+docker run --name api-pokemon-battle-cards --env-file .env -p 8000:8000 api-pokemon-battle-cards
 ```
 
 ## Desenvolvedor
